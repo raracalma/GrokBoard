@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GrokBoard</string>
+    <string name="a11y_desc">Lê o texto visível no X só para montar reply com o Grok. Não envia nada para servidor próprio.</string>
+    <string name="howto">1. Liga o teclado e troca para o GrokBoard.\n2. Cola a API key e põe o modelo grok-4.7.\n3. Adiciona crédito no console.x.ai. Sem saldo a API responde 403.\n4. Toca em Ler posts do X e liga o GrokBoard. Sem isso o teclado não vê o tweet.</string>
+</resources>
