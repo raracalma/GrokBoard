@@ -1,5 +1,6 @@
 package br.oliveira.grokboard.ime
 
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.inputmethodservice.InputMethodService
@@ -72,6 +73,7 @@ class GrokInputMethodService : InputMethodService() {
             hideAccents()
             renderBoard()
         }
+        tap(view.findViewById(R.id.btn_clip)) { pasteClipboard() }
         tap(view.findViewById(R.id.btn_settings)) {
             val i = Intent(this, SettingsActivity::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -429,6 +431,17 @@ class GrokInputMethodService : InputMethodService() {
                 else -> true
             }
         }
+    }
+
+    private fun pasteClipboard() {
+        val cm = getSystemService(ClipboardManager::class.java)
+        val clip = cm?.primaryClip
+        val text = if (clip != null && clip.itemCount > 0) clip.getItemAt(0).coerceToText(this).toString() else ""
+        if (text.isBlank()) {
+            Toast.makeText(this, "Nada copiado", Toast.LENGTH_SHORT).show()
+            return
+        }
+        commit(text)
     }
 
     private fun commit(text: String) {
