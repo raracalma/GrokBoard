@@ -131,6 +131,7 @@ class GrokInputMethodService : InputMethodService() {
     }
 
     private fun renderBoard() {
+        val dollar = 36.toChar().toString()
         val host = board ?: return
         host.removeAllViews()
         if (sheetMode != Sheet.NONE) return
@@ -143,12 +144,12 @@ class GrokInputMethodService : InputMethodService() {
             }
             Board.NUM -> {
                 host.addView(keyRow("1234567890".map { it.toString() }))
-                host.addView(keyRow(listOf("@", "#", "\( {' \)'}", "%", "&", "-", "+", "(", ")")))
+                host.addView(keyRow(listOf("@", "#", dollar, "%", "&", "-", "+", "(", ")")))
                 host.addView(keyRow(listOf("*", "\"", "'", ":", ";", "!", "?")))
                 host.addView(spaceRow(numLabel = "ABC", extra = "#+="))
             }
             Board.SYM -> {
-                host.addView(keyRow(listOf("@", "#", "\( {' \)'}", "%", "&", "-", "+", "(", ")")))
+                host.addView(keyRow(listOf("[", "]", "{", "}", "#", "%", "^", "*", "+", "=")))
                 host.addView(keyRow(listOf("_", "\\", "|", "~", "<", ">", "€", "£", "¥")))
                 host.addView(keyRow(listOf("•", "°", "·", "—", "…", "/", "=")))
                 host.addView(spaceRow(numLabel = "123", extra = "ABC"))
