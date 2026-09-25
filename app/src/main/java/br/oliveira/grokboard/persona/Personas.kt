@@ -135,8 +135,6 @@ object Personas {
                 Responda SOMENTE com o texto final, sem aspas, sem explicação.
             """.trimIndent()
         ),
-    )
-,
         Persona(
             id = "assistant",
             name = "Assistant",
