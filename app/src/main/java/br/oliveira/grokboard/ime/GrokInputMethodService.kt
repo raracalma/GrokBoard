@@ -304,9 +304,9 @@ class GrokInputMethodService : InputMethodService() {
     private fun fnKey(
         label: String,
         weight: Float,
-        onDown: () -> Unit,
         onHold: (() -> Unit)? = null,
         onUp: (() -> Unit)? = null,
+        onDown: () -> Unit,
     ): Button {
         val b = Button(this)
         b.text = label
