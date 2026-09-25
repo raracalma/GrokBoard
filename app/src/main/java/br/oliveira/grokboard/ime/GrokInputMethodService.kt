@@ -172,7 +172,8 @@ class GrokInputMethodService : InputMethodService() {
         val row = hrow()
         row.addView(fnKey(numLabel, 1.5f) { onModeKey(numLabel) })
         row.addView(fnKey(extra, 1.2f) { onExtraKey(extra) })
-        row.addView(fnKey("espaço", 4.2f) { commit(" ") })
+        row.addView(fnKey("espaço", 3.2f) { commit(" ") })
+        row.addView(fnKey(",", 1f) { commit(",") })
         row.addView(fnKey(".", 1f) { commit(".") })
         row.addView(fnKey("↵", 1.3f) { sendEnter() })
         return row
@@ -321,29 +322,59 @@ class GrokInputMethodService : InputMethodService() {
         b.minimumHeight = 0
         b.includeFontPadding = false
         val lp = if (weight <= 0f) {
-            LinearLayout.LayoutParams(dp(44), dp(50))
+            LinearLayout.LayoutParams(dp(44), dp(58))
         } else {
-            LinearLayout.LayoutParams(0, dp(50), weight)
+            LinearLayout.LayoutParams(0, dp(58), weight)
         }
-        lp.setMargins(dp(2), dp(3), dp(2), dp(3))
+        lp.setMargins(dp(1), dp(2), dp(1), dp(2))
         b.layoutParams = lp
-        val hold = Runnable { onHold?.invoke() }
+        var fired = false
+        var downX = 0f
+        var downY = 0f
+        val slop = 28f * resources.displayMetrics.density
+        val hold = Runnable {
+            if (!fired) {
+                onDown()
+                fired = true
+            }
+            onHold?.invoke()
+        }
         b.setOnTouchListener { v, ev ->
             when (ev.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
                     v.alpha = 0.55f
                     v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-                    onDown()
-                    if (onHold != null) main.postDelayed(hold, 320)
+                    downX = ev.rawX
+                    downY = ev.rawY
+                    fired = onUp != null
+                    if (fired) onDown()
+                    if (onHold != null) main.postDelayed(hold, 280)
                     true
                 }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                MotionEvent.ACTION_MOVE -> {
+                    val dx = ev.rawX - downX
+                    val dy = ev.rawY - downY
+                    if (dx * dx + dy * dy > slop * slop) {
+                        v.alpha = 1f
+                        main.removeCallbacks(hold)
+                        fired = true
+                    }
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
                     v.alpha = 1f
                     main.removeCallbacks(hold)
+                    val dx = ev.rawX - downX
+                    val dy = ev.rawY - downY
+                    if (!fired && dx * dx + dy * dy <= slop * slop) onDown()
                     onUp?.invoke()
                     true
                 }
-                else -> true
+                else -> {
+                    v.alpha = 1f
+                    main.removeCallbacks(hold)
+                    true
+                }
             }
         }
         return b
