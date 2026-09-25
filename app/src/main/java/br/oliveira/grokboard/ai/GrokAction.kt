@@ -17,6 +17,10 @@ enum class GrokAction(val label: String, val instruction: String) {
         "Compor",
         "Componha o texto pedido no tom da persona. Se o campo estiver vazio, invente um rascunho útil e curto."
     ),
+    STYLE(
+        "Estilo",
+        "Reescreva o texto inteiro no estilo da persona. Mantenha o fato e a intenção. Não explique."
+    ),
     REPLY_X(
         "Responder X",
         "Escreva uma resposta pronta para postar/responder no X. Curta, humana, no tom da persona. Sem hashtag, sem emoji demais, sem pergunta no final."

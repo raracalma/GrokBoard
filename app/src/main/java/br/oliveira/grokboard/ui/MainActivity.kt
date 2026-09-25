@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.open_settings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
+        findViewById<Button>(R.id.open_a11y).setOnClickListener {
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        }
         findViewById<TextView>(R.id.howto).text = getString(R.string.howto)
     }
 }

@@ -25,6 +25,7 @@ class GrokClient(
         fieldText: String,
         packageName: String?,
         extraScreenContext: String? = null,
+        replying: Boolean = false,
     ): String {
         val app = AppContext.label(packageName)
         val user = buildString {
@@ -32,7 +33,11 @@ class GrokClient(
             appendLine("Instrução: ${action.instruction}")
             appendLine("App aberto: $app ($packageName)")
             if (AppContext.isX(packageName)) {
-                appendLine("Contexto: o usuário está no X. Trate o texto como rascunho de post ou reply.")
+                if (replying) {
+                    appendLine("O usuário está respondendo um post no X. Escreva só a resposta, no tom da persona, curta, sem hashtag e sem pergunta no final.")
+                } else {
+                    appendLine("O usuário está escrevendo um post novo no X.")
+                }
             }
             if (!extraScreenContext.isNullOrBlank()) {
                 appendLine("Texto visível na tela (post/thread):")
