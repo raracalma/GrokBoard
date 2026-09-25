@@ -143,12 +143,12 @@ class GrokInputMethodService : InputMethodService() {
             }
             Board.NUM -> {
                 host.addView(keyRow("1234567890".map { it.toString() }))
-                host.addView(keyRow(listOf("@", "#", "$", "%", "&", "-", "+", "(", ")")))
+                host.addView(keyRow(listOf("@", "#", "\( {' \)'}", "%", "&", "-", "+", "(", ")")))
                 host.addView(keyRow(listOf("*", "\"", "'", ":", ";", "!", "?")))
                 host.addView(spaceRow(numLabel = "ABC", extra = "#+="))
             }
             Board.SYM -> {
-                host.addView(keyRow(listOf("[", "]", "{", "}", "#", "%", "^", "*", "+", "=")))
+                host.addView(keyRow(listOf("@", "#", "\( {' \)'}", "%", "&", "-", "+", "(", ")")))
                 host.addView(keyRow(listOf("_", "\\", "|", "~", "<", ">", "€", "£", "¥")))
                 host.addView(keyRow(listOf("•", "°", "·", "—", "…", "/", "=")))
                 host.addView(spaceRow(numLabel = "123", extra = "ABC"))
