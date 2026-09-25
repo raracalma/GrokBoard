@@ -5,6 +5,7 @@ import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.os.Handler
 import android.os.Looper
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -22,6 +23,7 @@ import java.util.concurrent.Executors
 
 class GrokInputMethodService : InputMethodService() {
 
+    private val io = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
     private var hostPackage: String? = null
     private var status: TextView? = null
